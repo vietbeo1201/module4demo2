@@ -1,6 +1,7 @@
 package com.example.module4demo2.AppConfiguration;
 
 //import com.example.module4demo2.Converter.StringToLocalDate;
+import com.example.module4demo2.Converter.StringToLocalDate;
 import com.example.module4demo2.Formatter.ProvinceFormatter;
 import com.example.module4demo2.Service.IProvinceService;
 import com.example.module4demo2.Service.impl.ProvinceService;
@@ -11,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -29,11 +31,12 @@ import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.Properties;
 
-@Configuration      //allow MVC know this is the config file
-@EnableWebMvc       // let ViewResolver works
-@EnableTransactionManagement    // management transaction, example: CRUD
-@ComponentScan("com.example.module4demo2")     //scan to create beans
-@EnableJpaRepositories("com.example.module4demo2.Repository")
+@Configuration                                                  //allow MVC know this is the config file
+@EnableWebMvc                                                   // let ViewResolver works
+@EnableTransactionManagement                                    // management transaction, example: CRUD
+@ComponentScan("com.example.module4demo2")                      //scan to create beans
+@EnableJpaRepositories("com.example.module4demo2.Repository")   //scan to create beans from interface class
+@EnableSpringDataWebSupport                                     //Enable Spring Data support features
 public class AppConfiguration implements WebMvcConfigurer, ApplicationContextAware {
     private ApplicationContext applicationContext;
 
@@ -110,13 +113,10 @@ public class AppConfiguration implements WebMvcConfigurer, ApplicationContextAwa
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL8Dialect");
         return properties;
     }
-
-//    @Override
-//    public void addFormatters(FormatterRegistry registry) {
-//        registry.addFormatter(new ProvinceFormatter(applicationContext.getBean(ProvinceService.class)));
-//    }
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addFormatter(new ProvinceFormatter(applicationContext.getBean(ProvinceService.class)));
+        StringToLocalDate stringToLocalDate = new StringToLocalDate("yyyy-MM-dd");
+        registry.addConverter(stringToLocalDate);
     }
 }

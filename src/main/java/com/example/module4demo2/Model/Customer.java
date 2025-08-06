@@ -15,15 +15,15 @@ public class Customer {
     private String cusPhone;
     private String cusEmail;
     private String image;
-//    private LocalDate cusBirthday;
-//
-//    public LocalDate getCusBirthday() {
-//        return cusBirthday;
-//    }
-//
-//    public void setCusBirthday(LocalDate cusBirthday) {
-//        this.cusBirthday = cusBirthday;
-//    }
+    private LocalDate cusBirthday;
+
+    public LocalDate getCusBirthday() {
+        return cusBirthday;
+    }
+
+    public void setCusBirthday(LocalDate cusBirthday) {
+        this.cusBirthday = cusBirthday;
+    }
 
     @ManyToOne
     @JoinColumn(name = "province_id")

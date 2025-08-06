@@ -6,7 +6,11 @@ import com.example.module4demo2.Service.ICustomerService;
 import com.example.module4demo2.Service.IProvinceService;
 import com.example.module4demo2.Service.impl.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -28,12 +32,30 @@ public class CustomerController {
     }
 
     @GetMapping("/management")
-    public ModelAndView listCustomer(){
-        ModelAndView modelAndView = new ModelAndView("/customer/list");
-        Iterable<Customer> customers = customerService.findAll();
-        modelAndView.addObject("customers", customers);
-        return modelAndView;
+    public ModelAndView listCustomer(@RequestParam("search") Optional<String> search,@PageableDefault(size = 2) Pageable pageable) {
+        try{
+            Page<Customer> customers;
+            if(search.isPresent()){
+                customers = customerService.findAllByCusName(pageable, search.get());
+            } else {
+                customers = customerService.findWithPage(pageable);
+            }
+            ModelAndView modelAndView = new ModelAndView("/customer/list");
+
+            modelAndView.addObject("customers", customers);
+            return modelAndView;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ModelAndView("redirect:/customer/management");
+        }
+
     }
+
+//    @RequestMapping("/{id}")
+//    public String showCustomer(@PathVariable("id") Customer customer, Model model) {
+//        model.addAttribute("customer", customer);
+//        return "for Debuging";
+//    }
 
     @GetMapping("/create")
     public ModelAndView createForm(){

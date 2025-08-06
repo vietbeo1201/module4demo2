@@ -31,6 +31,10 @@
             <input type="text" id="phone" th:field="*{cusPhone}"/>
         </div>
         <div>
+            <label for="birthday">birthday</label>
+            <input type="text" id="birthday" th:field="*{cusBirthday}"/>
+        </div>
+        <div>
             <label for="province">Province</label>
             <select id="province" th:field="*{province}">
                 <option th:each="p : ${provinces}" th:value="${p.getProvinceId()}" th:text="${p.getProvinceName()}"></option>

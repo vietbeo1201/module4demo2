@@ -4,7 +4,12 @@
     <title>List Customer</title>
 </head>
 <body>
-
+<div style="margin-bottom: 10px; margin-left: 110px">
+    <form th:action="@{/customer/management}" method="get">
+        <label><input  type="text" name="search"></label>
+        <button type="submit" class="btn btn-primary"> search</button>
+    </form>
+</div>
 <table id = "customers">
     <thead>
     <tr>
@@ -14,6 +19,7 @@
         <th>address</th>
         <th>province</th>
         <th>phone</th>
+        <th>birthday</th>
         <th>Update</th>
         <th>Delete</th>
     </tr>
@@ -26,11 +32,17 @@
         <td th:text="${c.getCusAddress()}"></td>
         <td th:text="${c.getProvince().getProvinceName()}"></td>
         <td th:text="${c.getCusPhone()}"></td>
+        <td th:text="${c.getCusBirthday()}"></td>
         <td><a th:href="@{/customers/update/{id}(id=${c.getCusID()})}">update</a></td>
         <td><a th:href="@{/customers/delete/{id}(id=${c.getCusID()})}">delete</a></td>
     </tr>
     </tbody>
 </table>
+
+<a class="btn btn-primary" th:if="${customers.hasPrevious()}" th:href="@{/customer/management(page=${customers.number - 1})}">Previous</a>
+<span th:text="${customers.number + 1}"></span> | <span th:text="${customers.totalPages}"></span>
+<a class="btn btn-primary" th:if="${customers.hasNext()}" th:href="@{/customer/management(page=${customers.number + 1})}">Next</a>
+
 <footer th:replace="/layout :: footer"></footer>
 </body>
 </html>

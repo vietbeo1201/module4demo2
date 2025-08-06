@@ -4,10 +4,10 @@ import com.example.module4demo2.Model.Customer;
 import com.example.module4demo2.Repository.ICustomerRepository;
 import com.example.module4demo2.Service.ICustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -32,5 +32,20 @@ public class CustomerService implements ICustomerService {
     @Override
     public void remove(Long id) {
         iCustomerRepository.deleteById(id);
+    }
+
+    @Override
+    public Page<Customer> findWithPage(Pageable pageable) {
+        return iCustomerRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<Customer> findAllByCusName(Pageable pageable, String cusName) {
+        return iCustomerRepository.findAllByCusNameContaining(pageable, cusName);
+    }
+
+    @Override
+    public Page<Customer> findOneByCusEmailContaining(Pageable pageable, String cusEmail) {
+        return iCustomerRepository.findOneByCusEmailContaining(pageable, cusEmail);
     }
 }
