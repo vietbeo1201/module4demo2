@@ -45,7 +45,11 @@ public class CustomerService implements ICustomerService {
     }
 
     @Override
-    public Page<Customer> findOneByCusEmailContaining(Pageable pageable, String cusEmail) {
-        return iCustomerRepository.findOneByCusEmailContaining(pageable, cusEmail);
+    public Page<Customer> findOneByCusEmailContaining(Pageable pageable, String cusEmail) throws Exception {
+        Page<Customer> customerOptional =  iCustomerRepository.findOneByCusEmailContaining(pageable, cusEmail);
+        if (customerOptional.isEmpty()) {
+            throw new Exception("email error");
+        }
+        return customerOptional;
     }
 }

@@ -36,7 +36,8 @@ public class CustomerController {
     }
 
     @GetMapping("/management")
-    public ModelAndView listCustomer(@RequestParam("search") Optional<String> search,@PageableDefault(size = 2) Pageable pageable) {
+    public ModelAndView listCustomer(@RequestParam("search") Optional<String> search,@PageableDefault(size = 2) Pageable pageable) throws Exception {
+        Page<Customer> customer = customerService.findOneByCusEmailContaining(pageable, "viet123@gmail.com");
         try{
             Page<Customer> customers;
             if(search.isPresent()){

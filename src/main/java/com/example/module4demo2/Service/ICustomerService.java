@@ -10,5 +10,5 @@ public interface ICustomerService extends IGeneralService<Customer> {
 
     Page<Customer> findAllByCusName( Pageable pageable, String cusName );
 
-    Page<Customer> findOneByCusEmailContaining(Pageable pageable, String cusEmail);
+    Page<Customer> findOneByCusEmailContaining(Pageable pageable, String cusEmail) throws Exception;
 }

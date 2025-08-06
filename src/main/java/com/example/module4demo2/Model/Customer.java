@@ -34,6 +34,7 @@ public class Customer implements Validator {
 
     @NotEmpty(message = "email not empty", groups = AdvanceInfo.class)
     @Size(min = 10, message = "length from 10 character", groups = AdvanceInfo.class)
+//    @Column(unique = true)
     private String cusEmail;
 
     @NotEmpty(message = "image not empty", groups = AdvanceInfo.class)

@@ -11,6 +11,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.format.FormatterRegistry;
@@ -37,6 +38,7 @@ import java.util.Properties;
 @ComponentScan("com.example.module4demo2")                      //scan to create beans
 @EnableJpaRepositories("com.example.module4demo2.Repository")   //scan to create beans from interface class
 @EnableSpringDataWebSupport                                     //Enable Spring Data support features
+@EnableAspectJAutoProxy                                         // allow Aspect in this environment
 public class AppConfiguration implements WebMvcConfigurer, ApplicationContextAware {
     private ApplicationContext applicationContext;
 
