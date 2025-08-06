@@ -1,20 +1,44 @@
 package com.example.module4demo2.Model;
 
 import javax.persistence.*;
+import javax.validation.ConstraintViolation;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+import java.security.acl.Group;
 import java.time.LocalDate;
+import java.util.Collections;
+import java.util.Set;
+
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
 
 @Entity                                                 // mark this is an entity
     @Table(name = "customer")                               // collate into database
 
-public class Customer {
+public class Customer implements Validator {
     @Id                                                     // PK
     @GeneratedValue(strategy = GenerationType.IDENTITY)     // auto increment
     private Long cusID;
+
+    @NotEmpty(message = "name not empty", groups = BasicInfo.class)
+    @Size(min = 2, max = 30, message = "length from 2 to 30", groups = BasicInfo.class)
     private String cusName;
+
+    @NotEmpty(message = "address not empty", groups = BasicInfo.class)
+    @Size(min = 5, message = "length from 5 character", groups = BasicInfo.class)
     private String cusAddress;
+
+    @NotEmpty(message = "phone not empty", groups = BasicInfo.class)
+    @Size(min = 10, message = "length from 10 character", groups = BasicInfo.class)
     private String cusPhone;
+
+    @NotEmpty(message = "email not empty", groups = AdvanceInfo.class)
+    @Size(min = 10, message = "length from 10 character", groups = AdvanceInfo.class)
     private String cusEmail;
+
+    @NotEmpty(message = "image not empty", groups = AdvanceInfo.class)
     private String image;
+
     private LocalDate cusBirthday;
 
     public LocalDate getCusBirthday() {
@@ -94,6 +118,16 @@ public class Customer {
     public String getCusEmail() {
         return cusEmail;
     }
+
+    @Override
+    public boolean supports(Class<?> clazz) {
+        return false;
     }
+
+    @Override
+    public void validate(Object target, Errors errors) {
+
+    }
+}
 
 

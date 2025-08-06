@@ -1,5 +1,6 @@
 package com.example.module4demo2.Controller;
 
+import com.example.module4demo2.Model.BasicInfo;
 import com.example.module4demo2.Model.Customer;
 import com.example.module4demo2.Model.Province;
 import com.example.module4demo2.Service.ICustomerService;
@@ -11,10 +12,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 @Controller
@@ -54,7 +58,7 @@ public class CustomerController {
 //    @RequestMapping("/{id}")
 //    public String showCustomer(@PathVariable("id") Customer customer, Model model) {
 //        model.addAttribute("customer", customer);
-//        return "for Debuging";
+//        return "for Debug";
 //    }
 
     @GetMapping("/create")
@@ -65,10 +69,12 @@ public class CustomerController {
     }
 
     @PostMapping("/create")
-    public String create(@ModelAttribute("customer") Customer customer, RedirectAttributes redirectAttributes){
+    public ModelAndView create(@Validated(BasicInfo.class) @ModelAttribute("customer") Customer customer, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            return new ModelAndView("/customer/create");
+        }
         customerService.save(customer);
-        redirectAttributes.addFlashAttribute("message","create new customer successfully");
-        return "redirect:/customer/management";
+        return new ModelAndView("/customer/management");
     }
 
     @GetMapping("/update/{id}")
